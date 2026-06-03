@@ -1,0 +1,158 @@
+# Functions
+# Replacements
+function ranger {
+    rangertmppath="$(mktemp -t ranger_cd.XXXXXX)"
+    /usr/bin/ranger --choosedir="$rangertmppath" "$@"
+    if [ -f "$rangertmppath" ]; then
+        dir="$(cat "$rangertmppath")"
+        rm -f "$rangercmdpath"
+        [ -d "$dir" ] && cd "$dir"
+    fi
+}
+
+function e() {
+    tmp="$(mktemp -t yazi_cd.XXXXXX)"
+    yazi --cwd-file="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        [ -d "$dir" ] && cd "$dir"
+    fi
+}
+
+# Other
+get_cursor_pos() {
+    exec < /dev/tty
+    oldstty=$(stty -g)
+    stty raw -echo min 0
+    printf '\033[6n' > /dev/tty
+    IFS=';' read -r -d R -a pos
+    stty "$oldstty"
+    # pos[0] looks like ESC[row
+    row=${pos[0]#*[}
+    col=${pos[1]}
+    printf "$row $col"
+}
+
+function exitc {
+    printf "\e[?25l"
+    # Get current cursor row
+    read -r row col < <(get_cursor_pos)
+    cols=$(tput cols)
+
+    # Loop upward from current row to top
+    while [ $row -gt 0 ]; do
+	tput cup $((row-1)) 0
+	printf "%${cols}s" " "
+	row=$((row-1))
+	sleep 0.01
+    done
+
+    builtin exit 0
+}
+
+function clc {
+    printf "\e[?25l"
+    # Get current cursor row
+    read -r row col < <(get_cursor_pos)
+    cols=$(tput cols)
+
+    # Loop upward from current row to top
+    while [ $row -gt 0 ]; do
+	tput cup $((row-1)) 0
+	printf "%${cols}s\e[1G" " "
+	row=$((row-1))
+	sleep 0.01
+    done
+
+    printf "\e[?25h"
+    cls
+}
+
+function color {
+    MXCOLOR="\[$1\]"
+    PS1="${PSG}${MXCOLOR}"
+}
+
+function waylandui {
+    printf "Starting Wayland"
+    sleep 1
+    startplasma-wayland
+}
+
+mkdirc() {
+    local joe=$1
+    mkdir -p $joe
+    cd $joe
+}
+
+function mnt {
+    sudo mkdir -p /mnt/$1
+    sudo mount /dev/$1 /mnt/$1
+}
+
+function yay {
+    if [ "$1" = "-S" ]; then
+	echo "/usr/bin/yay $@ --noconfirm"
+	/usr/bin/yay $@ --noconfirm
+    else
+	echo "/usr/bin/yay $@"
+	/usr/bin/yay $@
+    fi
+}
+
+function paru {
+    if [ "$1" = "-S" ]; then
+	echo "/usr/bin/paru $@ --noconfirm"
+	/usr/bin/paru $@ --noconfirm
+    else
+	echo "/usr/bin/paru $@"
+	/usr/bin/paru $@
+    fi
+}
+
+function pacman {
+    if [ "$1" = "-S" ] || [ "$1" = "-Sy" ] || [ "$1" = "-Rnuvs" ] || [ "$1" = "-Syu" ]; then
+	echo "sudo /usr/bin/pacman $@ --noconfirm"
+	sudo /usr/bin/pacman $@ --noconfirm
+    else
+	echo "/usr/bin/pacman $@"
+	/usr/bin/pacman $@
+    fi
+}
+
+function cdr {
+    local posdir
+    posdir="$(realpath "$1")"
+    cd "$posdir"
+}
+
+function start {
+    nohup "$@" >/dev/null &
+    disown
+}
+
+function startr {
+    nohup "$@" >/dev/null &
+    exit
+}
+
+function startxa {
+    ELECTRON_OZONE_PLATFORM_HINT=x11 \
+    XDG_SESSION_TYPE=x11 \
+    nohup "$@" >/dev/null 2>&1 &
+    disown
+}
+
+function startxaa {
+    ELECTRON_OZONE_PLATFORM_HINT=x11 \
+    XDG_SESSION_TYPE=x11 \
+    "$@"
+}
+
+function startxr {
+    ELECTRON_OZONE_PLATFORM_HINT=x11 \
+    XDG_SESSION_TYPE=x11 \
+    nohup "$@" >/dev/null 2>&1 &
+    exit
+}

@@ -1,0 +1,169 @@
+echo() {
+    sleep 0.3
+    command echo "$@"
+    sleep 0.2
+}
+pw() {
+    local s=$1
+    local inf="\e[1m\e[3m\e[2mPlease wait"
+    printf "%s" "$inf"
+
+    for ((n=0; n<s; n++)); do
+        printf "\e[2K\e[999D$inf"
+	sleep 0.2
+        for ((i=0; i<3; i++)); do
+            printf "."
+            sleep 0.2
+        done
+    done
+
+    printf "\e[2K\e[999D\e[0m"
+}
+sleeptime="0.02${RANDOM:0:1}"
+plnb() {
+    printf '\e[38;2;13;115;204m%b\n\e[0m' "$@"
+    sleep $sleeptime
+}
+plng() {
+    printf '\e[38;2;25;203;0m%b\n\e[0m' "$@"
+    sleep $sleeptime
+}
+plnp() {
+    printf '\e[38;2;203;30;209m%b\n\e[0m' "$@"
+    sleep $sleeptime
+}
+plnr() {
+    printf '\e[38;2;204;4;3m%b\n\e[0m' "$@"
+    sleep $sleeptime
+}
+pln() {
+    printf '%b\n\e[0m' "$@"
+    sleep $sleeptime
+}
+
+stty -echo
+printf "$(awk '{printf "[%.6f]\n", $1}' /proc/uptime) systemd[722]: Started bash ($$)\n\n"
+echo "Interactive Shell"
+termxd="Terminal: $TERM"
+if [[ $TERM == *kitty ]]; then
+    echo -e "$termxd\n\e[38;2;203;30;209m[kitty]: \e[0m$(kitty -v)"
+elif [[ $TERM == "foot" ]]; then
+    echo -e "$termxd \n\e[35m[foot]: \e[0m$(foot -v)"
+fi
+echo -e "\e[38;2;25;203;0mUsing information from \e[38;2;13;115;204mfastfetch\n"
+fastfetch --pipe false --logo none --config none | echol
+pw 2
+clc
+
+plng "Starting bash"
+pw 1
+plnb "Initializing bashrc\e[31m"
+pln "\e[33mnot using a netstrain detector"
+plnb "zone leak detection enabled"
+plnb "standard timeslicing quantum is 10000 us"
+plnb "mig_table_max_disp = 72"
+plnb "TSC Deadline Timer supported and enabled"
+plnb "calling mpo_policy_init for TMSafetyNet"
+plng "Security policy loaded: Safety net for Rollback (TMSafetyNet)"
+plnb "calling mpo_policy_init for Sandbox"
+plng "Security policy loaded: Seatbelt sandbox policy (Sandbox)"
+plnb "calling mpo_policy_init for Quarantine"
+plng "Security policy loaded: Quarantine policy (Quarantine)"
+plnb "AppleACPIPlatform: _STA evaluation returned unexpected mask 0x0F"
+plnb "IOPCIConfigurator: device 0x1C3A added to PCI tree"
+plnb "AppleSMC::smcWriteKey - wrote value 0x01 to 'MSLD'"
+sleep 0.2
+plng "\nHN_ Framework successfully initialized"
+plnb "using 16384 buffer header and 10240 cluster IO buffer headers"
+plnb "IOAPIC: Version 0x20 Vectors 64:87"
+plnb "ACPI: System State [S0 S3 S4 S5] (S3)"
+plnb "PFM64 0xf10000000, 0xf0000000"
+plnb "[ PCI configuration began ]"
+plng "console relocated to 0xf10000000"
+plnb "PCI configuration changed (bridge=16 device=4 cardbus=0)"
+plng "[ PCI configuration end, bridges 12 devices 16 ]"
+plng "mbinit: done [64 MB total pool size, (42/21) split]"
+plnb "Pthread support ABORTS when sync kernel primitives misued"
+plnb "IOUSBHostInterface::start - enabling alt setting 1"
+plnb "IOBluetoothHCIController::setConfigState - waiting for firmware"
+plnb "IOGraphics: AGDC policy loaded successfully"
+plng "AppleAPFSContainer: checkpoint validated"
+plng "IOAudioEngine: enabling hardware volume ramp"
+plnb "AppleCredentialManager: secure token verified"
+plnb "IO80211Controller::init - country code set to X3"
+plnb "AppleKeyStore: device unlocked with SEP response"
+plnb "IOAHCIDevice: link speed negotiated at 6.0 Gb/s"
+plnr "AppleNVMe Assert: controller ready state achieved"
+sleep 0.2
+plnr "\nBTCOEXIST off"
+plnb "$(ip a)" | echol
+plnb "\nrooting via boot-uid from /chosen: "
+plnb "Waiting on <dict ID=\"0\"><key>IOProviderClass</key><string ID=\"1\">"
+plnb "IOResources</string><key>IOResourceMatch</key><string ID=\"2\">boot-uuid-media</string></dict>"
+plnb "AppleACPIEC: EC transaction latency 0.9 ms"
+plng "IOGraphics: framebuffer online at 2048x1280"
+plnb "AppleSMC::smcReadKey - key 'F1Ac' returned 0x29"
+plnb "IOPCIConfigurator: bridge depth = 3"
+plnb "AppleAPFSVolume: role=System, sealed snapshot OK"
+plnr "IOAudioEngine: hardware mute state = false"
+plnb "AppleKeyStore: SEP reported integrity OK"
+plnp "Got boot device = IOService:/bashACPIPlatformExpert/PCI0@0/bashACPIPCI/SATA@1F,2/"
+plnb "bashInterPchSeriesAHCI/PRT0@0/IOAHCIDevice@0/bashAHCIDiskDriver/SarahI@sTheBestDriverIOAHCIBlockStorageDevice/IOBlockStorageDriver/"
+plng "SSD TS128C Media/UIGUIDPartitionScheme/Customer@2"
+plnb "BSD root: disk0s2, major 14, minor 2"
+plnb "Kernel is LP64"
+plnb "MottIsAScrub::checkstatus - true, Mott::Scrub"
+plnp "[IOBluetoothHCIController::setConfigState] calling registerService"
+plnb "$(lsblk)" | echol
+plnb "AirPort Brcm4331: Ethernet address NONE"
+plnb "IO80211Controller::dataLinkLayerattachComplete(): adding EFINVRAM notification"
+plng "IO80211Interface::efiNVRAMPublished():"
+plnb "Created virtif 0xffffff800c32ee00 p2p0"
+plnb "BCM5701Enet: Ethernet address NONE"
+plnb "NTFS driver 3.8 [Flags: R/W]"
+plng "DSMOS has arrived"
+plnb "m_thebest"
+plnb "IO80211Interface: enabling AWDL"
+plnb "AppleNVMe: SMART temperature = 34C"
+plng "IOUSBHostPort: device connected at 5Gb/s"
+plnb "AppleACPIPlatform: _PTS invoked for S0 transition"
+plnb "IOHIDEventDriver: keyboard detected"
+plnb "AppleMobileFileIntegrity: AMFI cache loaded"
+plnb "IOPMrootDomain: idle sleep prevented by 'boot'"
+plnb "AppleBCMWLAN: country code locked"
+plnb "IOReport: GPU performance channel active"
+plnb "AppleSMC::smcWriteKey - wrote 0x00 to 'FS! '"
+plnb "virtual bool IOHIDEventSystemUserClient::initWithTask(task*, void*, UInt32):"
+plnr "Client task not privileged to open IOHIDSystem for mapping memory (e00002c1)"
+plnb "\nStarting \e[1m\e[38;2;105;46;201mHyptonics"
+plnb "pwd is $PWD"
+pw 2
+
+printf "\e[?25l\e[3J\e[$(($(tput lines) / 2 - 3));0H"
+tfmiddle="$(($(tput cols) / 2 - 44))"
+printf '\e[1m\e[31m%b\n\e[0m' " \e[${tfmiddle}b _   _                   _                     _                  ____   _  _    _ "
+sleep $sleeptime
+printf '\e[1m\e[31m%b\n\e[0m' " \e[${tfmiddle}b| | | |  _   _   _ __   | |_    ___    _ __   (_)   ___   ___    |___ \ | || |  / |"
+sleep $sleeptime
+printf '\e[1m\e[31m%b\n\e[0m' " \e[${tfmiddle}b| |_| | | | | | | '_ \  | __|  / _ \  | '_ \  | |  / __| / __|     __) || || |_ | |"
+sleep $sleeptime
+printf '\e[1m\e[31m%b\n\e[0m' " \e[${tfmiddle}b|  _  | | |_| | | |_) | | |_  | (_) | | | | | | | | (__  \__ \    / __/ |__   _|| |"
+sleep $sleeptime
+printf '\e[1m\e[31m%b\n\e[0m' " \e[${tfmiddle}b|_| |_|  \__, | | .__/   \__|  \___/  |_| |_| |_|  \___| |___/   |_____(_) |_|(_)_|"
+sleep $sleeptime
+printf '\e[1m\e[31m%b\n\e[0m' " \e[${tfmiddle}b         |___/  |_|                                                                
+"
+sleep 2
+for i in {1..6}; do
+    printf "\e[2K\e[1A"
+    sleep $sleeptime
+done
+printf "\e[?25h"
+
+
+
+stty echo
+unset pw
+unset tfmiddle
+unset pln
+trap - SIGINT

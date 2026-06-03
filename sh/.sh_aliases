@@ -1,0 +1,90 @@
+### Alias logic ###
+
+# Shortcuts
+alias q='exit'
+if [[ "$CURRENTSHELL" == "bash" ]]; then
+    alias r='reset; openprompt'
+else
+    alias r='reset'
+fi
+alias a='touch'
+alias m='mkdir -p'
+alias i='reload'
+alias ir='cmdpromptenabled=true; reload'
+alias h='history'
+alias c='source ~/.bashrc.bak'
+alias l='clear'
+
+# Game stuff
+alias rain-monitor='tail -f "/home/eiedouno/.local/share/Steam/steamapps/common/Rain World/BepInEx/LogOutput.log"'
+alias mul-sv='sudo execstack -c "/home/eiedouno/.local/share/Steam/steamapps/common/Stardew Valley/libGalaxy64.so" && execstack -c "/home/eiedouno/.local/share/Steam/steamapps/common/Stardew Valley/libGalaxyCSharpGlue.so"'
+
+# Replacements
+unalias ls 2>/dev/null
+ls() {
+    command ls --color=always "$@" | echol
+}
+
+if [[ $TERM == *kitty ]]; then
+    alias clear='printf "\e[3J\e[0;0H"'
+else
+    alias clear='printf "\e[2J\e[0;0H"'
+fi
+
+alias time="/usr/bin/time -qf\"\n[time] '%C' completed in %E | status: %x (%To)\""
+alias grep='grep --color=auto'
+alias sudo='sudo -E'
+alias edex-ui='edex-ui --no-sandbox'
+
+# Horseplay
+ehco() { printf "Bro can't spell XD\n"; }
+alias eoch=ehco
+wtf() { cowsay "Yea, idk either bro"; }
+help() { printf "help yourself loser\n"; }
+alias helpme=help
+
+# System
+alias im='sudo evsieve --input /dev/input/event* --print'
+alias stop='pkill -STOP'
+alias cont='pkill -CONT'
+alias sfreboot='systemctl soft-reboot'
+alias 'update-grub'='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias sshenv='export XDG_RUNTIME_DIR=/run/user/1000; export WAYLAND_DISPLAY=wayland-0; export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus;cls'
+alias lockappsh='qs -c caelestia ipc call lock lock'
+
+if [[ "$CURRENTSHELL" == "zsh" ]]; then
+    alias reload='source ~/.zshrc'
+elif [[ "$CURRENTSHELL" == "bash" ]]; then
+    alias reload='source ~/.bashrc'
+fi
+
+alias sysinfo='fastfetch --logo none'
+
+# Venv
+alias 'source-manim'='source ~/.venv.manim/bin/activate'
+alias 'source-textual'='source ~/.venv.textual/bin/activate'
+
+# Emulated Terminal
+alias reset='printf "\ec"'
+alias K_BO1='kitty @ set-background-opacity 1'
+alias K_BOR='kitty @ load-config'
+function nvim {
+    printf "\e[?1049h"
+    TERM=linux command nvim "$@"
+    printf "\e[?1049l"
+}
+
+# Show-off Scripts
+alias ct='rbonsai -Sv -w 1 -t 0.03'
+alias gmf='cmatrix'
+alias memr='pv /dev/urandom | hexdump -C'
+
+# Other
+alias cfind='compgen -c | grep'
+alias cls='clear'
+alias mpt='mpv --vo=tct --really-quiet'
+alias mptl='mpv --vo=tct --really-quiet --input-conf=/dev/null --no-input-default-bindings'
+# alias clear='/usr/bin/clear; printf "\e[31m\e[1mTOP SECRET//COMINT//REL TO USA, FVEY\n\e[0m"; fastfetch'
+alias download-audio='yt-dlp -x --audio-quality 0 --audio-format mp3'
+alias lsa='ls -A'
+alias droff='killall dynamic-reactants'
