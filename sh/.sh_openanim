@@ -8,10 +8,10 @@ pw() {
     local inf="\e[1m\e[3m\e[2mPlease wait"
     printf "%s" "$inf"
 
-    for ((n=0; n<s; n++)); do
+    for ((n = 0; n < s; n++)); do
         printf "\e[2K\e[999D$inf"
-	sleep 0.2
-        for ((i=0; i<3; i++)); do
+        sleep 0.2
+        for ((i = 0; i < 3; i++)); do
             printf "."
             sleep 0.2
         done
@@ -139,7 +139,7 @@ plnb "\nStarting \e[1m\e[38;2;105;46;201mHyptonics"
 plnb "pwd is $PWD"
 pw 2
 
-printf "\e[?25l\e[3J\e[$(($(tput lines) / 2 - 3));0H"
+printf "\e[?25l\e[2J\e[3J\e[$(($(tput lines) / 2 - 3));0H"
 tfmiddle="$(($(tput cols) / 2 - 44))"
 printf '\e[1m\e[31m%b\n\e[0m' " \e[${tfmiddle}b _   _                   _                     _                  ____   _  _    _ "
 sleep $sleeptime
@@ -159,8 +159,6 @@ for i in {1..6}; do
     sleep $sleeptime
 done
 printf "\e[?25h"
-
-
 
 stty echo
 unset pw
